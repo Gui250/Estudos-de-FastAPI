@@ -3,7 +3,7 @@ from sqlalchemy_utils import ChoiceType
 from sqlalchemy.orm import declarative_base
 
 # Faz a conexão com o banco de dados
-database = create_engine('sqlite:///database.db')
+database = create_engine('sqlite:///meubanco.db')
 
 # declara a base do banco de dados
 Base = declarative_base()
@@ -17,7 +17,7 @@ class User(Base):
     admin = Column("admin",Boolean, default=False)
     ativo = Column("ativo",Boolean)
 
-    def __init__(self, name, email, password, admin, ativo):
+    def __init__(self, name, email, password, admin=False, ativo=True):
         self.name = name
         self.email = email
         self.password = password
@@ -27,14 +27,14 @@ class User(Base):
 class Pedido(Base):
     __tablename__ = 'pedidos'
 
-    STATUS_CHOICES = (
-        ('Pending', 'Pending'),
-        ('CANCELED', 'CANCELED'),
-        ('FINISHED', 'FINISHED'),
-    )
+    # STATUS_CHOICES = (
+    #     ('Pending', 'Pending'),
+    #     ('CANCELED', 'CANCELED'),
+    #     ('FINISHED', 'FINISHED'),
+    # )
 
     id = Column("id",Integer, primary_key=True, nullable=False, autoincrement=True)
-    status = Column("status",ChoiceType(STATUS_CHOICES), nullable=False)
+    status = Column("status",String, nullable=False)
     usuario = Column("usuario",ForeignKey("users.id"))
     preco = Column("preco",Float, nullable=False)
 
